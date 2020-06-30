@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UnityEditor.UIElements;
+using UnityEngine;
 
 public class Player : MonoBehaviour
 {
@@ -15,6 +16,12 @@ public class Player : MonoBehaviour
     {
         // Time.deltaTime converts to real human time
         // Equivalent of incorporating real time
-        transform.Translate(Vector3.right * (_speed * Time.deltaTime));
+
+        var horizontalInput = Input.GetAxis("Horizontal");
+        var verticalInput = Input.GetAxis("Vertical");
+
+        var direction = new Vector3(horizontalInput, verticalInput, 0);
+
+        transform.Translate(direction * (_speed * Time.deltaTime));
     }
 }
