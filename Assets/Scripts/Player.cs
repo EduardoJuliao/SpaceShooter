@@ -39,22 +39,22 @@ public class Player : MonoBehaviour
 
         playerTransform.Translate(direction * (_speed * Time.deltaTime));
 
-        if (transform.position.x >= 9)
+        if (transform.position.x >= Boundries.MaxX)
         {
-            playerTransform.position = new Vector3(9, transform.position.y, 0);
+            playerTransform.position = new Vector3(Boundries.MaxX, transform.position.y, 0);
         }
-        else if (transform.position.x <= -9)
+        else if (transform.position.x <= Boundries.MinX)
         {
-            playerTransform.position = new Vector3(-9, transform.position.y, 0);
+            playerTransform.position = new Vector3(Boundries.MinX, transform.position.y, 0);
         }
 
-        if (transform.position.y <= -3.8)
+        if (transform.position.y <= Boundries.MinY)
         {
-            playerTransform.position = new Vector3(transform.position.x, -3.8f, 0);
+            playerTransform.position = new Vector3(transform.position.x, Boundries.MinY, 0);
         }
-        else if (transform.position.y >= 5.5)
+        else if (transform.position.y >= Boundries.MaxY)
         {
-            playerTransform.position = new Vector3(transform.position.x, 5.5f, 0);
+            playerTransform.position = new Vector3(transform.position.x, Boundries.MaxY, 0);
         }
     }
 
