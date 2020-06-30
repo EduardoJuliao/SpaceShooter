@@ -323,6 +323,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ee97763ae1a14866b1892d3b6f56853, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _enemyPrefab: {fileID: 6328513291033526614, guid: 9d0067030b137402ab17f3045fd6d698,
+    type: 3}
+  _secondsToSpawn: 2
 --- !u!4 &1831403732
 Transform:
   m_ObjectHideFlags: 0
