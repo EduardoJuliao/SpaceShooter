@@ -6,7 +6,8 @@ public class Player : MonoBehaviour
     [SerializeField] private float _speed = 3.5f;
     [SerializeField] private GameObject _laserPrefab;
     [SerializeField] private float _fireRate = 0.5f;
-
+    [SerializeField] private int _lives = 3;
+    
     private float _nextFire = -1f;
     private readonly Vector3 _laserOffset = new Vector3(0, 0.8f, 0);
 
@@ -62,5 +63,15 @@ public class Player : MonoBehaviour
     {
         _nextFire = Time.time + _fireRate;
         Instantiate(_laserPrefab, transform.position + _laserOffset, Quaternion.identity);
+    }
+
+    public void Damage(int damageDealt)
+    {
+        _lives -= damageDealt;
+
+        if (_lives <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 }
