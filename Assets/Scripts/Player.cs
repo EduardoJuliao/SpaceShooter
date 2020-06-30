@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         CalculateMovement();
-        if (Input.GetKeyUp(KeyCode.Space) && Time.time > _nextFire)
+        if (Input.GetKey(KeyCode.Space) && Time.time > _nextFire)
         {
             Shoot();
         }
