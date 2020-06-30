@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
 
     private SpawnManager _spawnManager;
     private float _nextFire = -1f;
-    private readonly Vector3 _laserOffset = new Vector3(0, 0.8f, 0);
+    private readonly Vector3 _laserOffset = new Vector3(0, 1.05f, 0);
 
     // Start is called before the first frame update
     void Start()
