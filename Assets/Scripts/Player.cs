@@ -1,5 +1,6 @@
 ﻿using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -7,13 +8,15 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _laserPrefab;
     [SerializeField] private float _fireRate = 0.5f;
     [SerializeField] private int _lives = 3;
-    
+
+    private SpawnManager _spawnManager;
     private float _nextFire = -1f;
     private readonly Vector3 _laserOffset = new Vector3(0, 0.8f, 0);
 
     // Start is called before the first frame update
     void Start()
     {
+        _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
         transform.position = new Vector3(0, 0, 0);
     }
 
@@ -71,6 +74,7 @@ public class Player : MonoBehaviour
 
         if (_lives <= 0)
         {
+            _spawnManager.OnPlayerDeath();
             Destroy(gameObject);
         }
     }
