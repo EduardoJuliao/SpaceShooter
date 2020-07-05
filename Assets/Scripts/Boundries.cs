@@ -7,5 +7,5 @@ public class Boundries
     public const float MaxX = 9;
     public const float MinX = -9;
     public const float MaxY = 5.5f;
-    public const float MinY = -3.8f;
+    public const float MinY = -6f;
 }
