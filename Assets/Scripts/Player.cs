@@ -18,11 +18,13 @@ public class Player : MonoBehaviour
     private bool _isTripleShotEnable = false;
     private bool _isSpeedEnable = false;
     private bool _isShieldEnable = false;
+    private GameObject _shield;
 
     // Start is called before the first frame update
     private void Start()
     {
         _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
+        _shield = transform.Find("Shield").gameObject;
         transform.position = new Vector3(0, 0, 0);
     }
 
@@ -47,9 +49,7 @@ public class Player : MonoBehaviour
 
         var direction = new Vector3(horizontalInput, verticalInput, 0);
 
-        var speed = _isSpeedEnable ? _speed * 2 : _speed;
-
-        playerTransform.Translate(direction * (speed * Time.deltaTime));
+        playerTransform.Translate(direction * (_speed * Time.deltaTime));
 
         if (transform.position.x >= Boundries.MaxX)
         {
@@ -81,6 +81,12 @@ public class Player : MonoBehaviour
 
     public void Damage(int damageDealt)
     {
+        if (_isShieldEnable)
+        {
+            _isShieldEnable = false;
+            _shield.SetActive(false);
+            return;
+        }
         _lives -= damageDealt;
 
         if (_lives > 0) return;
@@ -92,6 +98,7 @@ public class Player : MonoBehaviour
     public void SpeedActive()
     {
         _isSpeedEnable = true;
+        _speed *= 2;
         StartCoroutine(SpeedPowerUpTimer());
     }
 
@@ -99,20 +106,13 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(5);
         _isSpeedEnable = false;
-        yield break;
+        _speed /= 2;
     }
     
     public void ShieldActive()
     {
-        _isTripleShotEnable = true;
-        StartCoroutine(ShieldPowerUpTimer());
-    }
-
-    IEnumerator ShieldPowerUpTimer()
-    {
-        yield return new WaitForSeconds(5);
-        _isTripleShotEnable = false;
-        yield break;
+        _isShieldEnable = true;
+        _shield.SetActive(true);
     }
     
     public void TripleShotActive()
@@ -125,7 +125,6 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(5);
         _isTripleShotEnable = false;
-        yield break;
     }
     
 }
