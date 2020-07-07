@@ -38,6 +38,8 @@ public class Player : MonoBehaviour
         {
             Debug.Log("UI manager is null");
         }
+        
+        _uiManager.UpdateLives(_lives);
     }
 
     // Update is called once per frame
@@ -101,6 +103,7 @@ public class Player : MonoBehaviour
         }
         _lives -= damageDealt;
 
+        _uiManager.UpdateLives(_lives);
         if (_lives > 0) return;
         
         _spawnManager.OnPlayerDeath();

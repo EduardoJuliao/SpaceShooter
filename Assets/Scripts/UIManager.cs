@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private Text _scoreText;
+    [SerializeField] private Image _livesDisplay;
+    [SerializeField] private Sprite[] _liveSprites;
 
     private void Start()
     {
@@ -16,5 +18,10 @@ public class UIManager : MonoBehaviour
     public void UpdateScoreText(long score)
     {
         _scoreText.text = "Score: " + score.ToString();
+    }
+
+    public void UpdateLives(int lives)
+    {
+        _livesDisplay.sprite = _liveSprites[lives];
     }
 }
