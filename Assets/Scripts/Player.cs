@@ -19,6 +19,8 @@ public class Player : MonoBehaviour
     private bool _isSpeedEnable = false;
     private bool _isShieldEnable = false;
     private GameObject _shield;
+    private long _score;
+    private UIManager _uiManager;
 
     // Start is called before the first frame update
     private void Start()
@@ -26,6 +28,16 @@ public class Player : MonoBehaviour
         _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
         _shield = transform.Find("Shield").gameObject;
         transform.position = new Vector3(0, 0, 0);
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+
+        if (_spawnManager == null)
+        {
+            Debug.Log("Spawn manager is null");
+        }
+        if (_uiManager == null)
+        {
+            Debug.Log("UI manager is null");
+        }
     }
 
     // Update is called once per frame
@@ -60,13 +72,13 @@ public class Player : MonoBehaviour
             playerTransform.position = new Vector3(Boundries.MinX, transform.position.y, 0);
         }
 
-        if (transform.position.y <= Boundries.MinY)
+        if (transform.position.y <= Boundries.MinY +2)
         {
-            playerTransform.position = new Vector3(transform.position.x, Boundries.MinY, 0);
+            playerTransform.position = new Vector3(transform.position.x, Boundries.MinY +2, 0);
         }
-        else if (transform.position.y >= Boundries.MaxY)
+        else if (transform.position.y >= Boundries.MaxY-2)
         {
-            playerTransform.position = new Vector3(transform.position.x, Boundries.MaxY, 0);
+            playerTransform.position = new Vector3(transform.position.x, Boundries.MaxY -2, 0);
         }
     }
 
@@ -97,6 +109,8 @@ public class Player : MonoBehaviour
 
     public void SpeedActive()
     {
+        if (_isSpeedEnable)
+            return;
         _isSpeedEnable = true;
         _speed *= 2;
         StartCoroutine(SpeedPowerUpTimer());
@@ -126,5 +140,10 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(5);
         _isTripleShotEnable = false;
     }
-    
+
+    public void AddScore(int score)
+    {
+        _score += score;
+        _uiManager.UpdateScoreText(_score);
+    }
 }
