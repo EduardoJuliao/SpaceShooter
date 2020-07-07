@@ -6,6 +6,7 @@ using UnityEngine;
 public class Powerup : MonoBehaviour
 {
     [SerializeField] private float _speed = 3;
+    [SerializeField] private PowerUpType _powerUpType;
 
     // Update is called once per frame
     private void Update()
@@ -20,11 +21,23 @@ public class Powerup : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (!other.CompareTag("Player")) return;
+        
+        var player = other.GetComponent<Player>();
+        switch (_powerUpType)
         {
-            var player = other.GetComponent<Player>();
-            player.TripleShotActive();
-            Destroy(this.gameObject);
+            case PowerUpType.Shield:
+                player.ShieldActive();
+                break;
+            case PowerUpType.Speed:
+                player.SpeedActive();
+                break;
+            case PowerUpType.TripleShot:
+                player.TripleShotActive();
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
         }
+        Destroy(this.gameObject);
     }
 }

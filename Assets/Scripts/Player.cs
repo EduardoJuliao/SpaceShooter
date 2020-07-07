@@ -16,6 +16,8 @@ public class Player : MonoBehaviour
     private float _nextFire = -1f;
     private readonly Vector3 _laserOffset = new Vector3(0, 1.05f, 0);
     private bool _isTripleShotEnable = false;
+    private bool _isSpeedEnable = false;
+    private bool _isShieldEnable = false;
 
     // Start is called before the first frame update
     private void Start()
@@ -45,7 +47,9 @@ public class Player : MonoBehaviour
 
         var direction = new Vector3(horizontalInput, verticalInput, 0);
 
-        playerTransform.Translate(direction * (_speed * Time.deltaTime));
+        var speed = _isSpeedEnable ? _speed * 2 : _speed;
+
+        playerTransform.Translate(direction * (speed * Time.deltaTime));
 
         if (transform.position.x >= Boundries.MaxX)
         {
@@ -69,14 +73,10 @@ public class Player : MonoBehaviour
     private void Shoot()
     {
         _nextFire = Time.time + _fireRate;
-        if (_isTripleShotEnable)
-        {
-            Instantiate(_tripleLaser, transform.position+ _laserOffset, Quaternion.identity);
-        }
-        else
-        {
-            Instantiate(_laserPrefab, transform.position + _laserOffset, Quaternion.identity);
-        }
+        Instantiate(
+            _isTripleShotEnable ? _tripleLaser : _laserPrefab, 
+            transform.position + _laserOffset,
+            Quaternion.identity);
     }
 
     public void Damage(int damageDealt)
@@ -89,13 +89,39 @@ public class Player : MonoBehaviour
         Destroy(gameObject);
     }
 
+    public void SpeedActive()
+    {
+        _isSpeedEnable = true;
+        StartCoroutine(SpeedPowerUpTimer());
+    }
+
+    private IEnumerator SpeedPowerUpTimer()
+    {
+        yield return new WaitForSeconds(5);
+        _isSpeedEnable = false;
+        yield break;
+    }
+    
+    public void ShieldActive()
+    {
+        _isTripleShotEnable = true;
+        StartCoroutine(ShieldPowerUpTimer());
+    }
+
+    IEnumerator ShieldPowerUpTimer()
+    {
+        yield return new WaitForSeconds(5);
+        _isTripleShotEnable = false;
+        yield break;
+    }
+    
     public void TripleShotActive()
     {
         _isTripleShotEnable = true;
-        StartCoroutine(TripleLaserPoewerUpTimer());
+        StartCoroutine(TripleLaserPowerUpTimer());
     }
 
-    IEnumerator TripleLaserPoewerUpTimer()
+    private IEnumerator TripleLaserPowerUpTimer()
     {
         yield return new WaitForSeconds(5);
         _isTripleShotEnable = false;
